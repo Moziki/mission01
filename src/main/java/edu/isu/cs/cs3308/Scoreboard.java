@@ -44,7 +44,7 @@ public class Scoreboard {
      * @throws IndexOutOfBoundsException If the index is greater than or equal
      * to the list size or less than zero.
      */
-    public GameEntry remove(int i) {
+    public GameEntry remove(int i) throws IndexOutOfBoundsException{
         return board.remove(i);
     }
 

@@ -2,6 +2,13 @@ package edu.isu.cs.cs3308.structures.impl;
 import edu.isu.cs.cs3308.GameEntry;
 import edu.isu.cs.cs3308.structures.List;
 
+
+/*  Dan Walker
+    CS3308
+    1/21/19
+    @SinglyLinkedList<E> - A list of nodes containing elemnents (GameEntry). Includes methods to
+                            add and remove items on the list
+ */
 public class SinglyLinkedList<E> implements List<E> {
 
     private static class Node<E> {
@@ -54,8 +61,9 @@ public class SinglyLinkedList<E> implements List<E> {
         if (element == null){}
         else {
             head = new Node<>(element, head);
-            if (size == 0)
+            if (size == 0) {
                 tail = head;
+            }
             size++;
         }
     }
@@ -71,43 +79,63 @@ public class SinglyLinkedList<E> implements List<E> {
     }
 
     public E removeLast(){
-        if (isEmpty()) return null;
-        int i = 0;
-        Node<E> current = head;
-        while (current.getNext() != null || i < size - 1) {
-            current = current.getNext();
-            i++;
+        if (isEmpty()){ return null;}
+        else {
+            int i = 0;
+            Node<E> current = head;
+            while (current.getNext() != null || i < size - 1) {
+                current = current.getNext();
+                i++;
+            }
+
+            Node<E> toRemove = current.getNext();
+            toRemove = null;
+            tail = current;
+
+            if (current.element == null) return null;
+
+            size--;
+            return tail.element;
         }
-
-        Node<E> toRemove = current.getNext();
-        toRemove = null;
-        tail = current;
-
-        if (current.element == null) return null;
-        size--;
-        return tail.element;
 
 
     }
 
     public void insert(E element, int index){
+        if (index < 0 || element == null) {
 
+        }
+        else if (index >= size ){
+            addLast(element);
+        }
+        else{
+            Node<E> newNode = new Node<>(element, null);
+            Node<E> current = head;
+            for (int i = 0; i < index -1; i++) {
+                current = current.getNext();
+            }
+            newNode.next = current.getNext();
+            current.next = newNode;
+            size++;
+
+
+        }
 
     }
 
-    public E remove(int index){
-        if (index < 0 || index >= size)
+    public E remove(int index) {
+        if (index < 0 || index >= size) {
             return null;
-
+        }
         Node<E> current = head;
-        for (int i = 0; i < index; i++)
+        for (int i = 0; i < index - 1; i++)
             current = current.getNext();
 
         Node<E> toRemove = current.getNext();
         current.setNext(toRemove.getNext());
         toRemove.setNext(null);
-        E element = current.element;
-        return element;
+        size--;
+        return toRemove.getElement();
     }
 
     public E get(int index) {
@@ -132,8 +160,7 @@ public class SinglyLinkedList<E> implements List<E> {
     public void printList(){
         Node<E> current = head;
         for (int i = 0; i < size; i++){
-            GameEntry thisOne = (GameEntry)current.getElement();
-            System.out.print(thisOne.getName() + " " + thisOne.getScore() + "  ");
+            System.out.println(current.getElement());
             current = current.getNext();
         }
     }
